@@ -1,0 +1,23 @@
+<p>Current Clients:</p>
+  #foreach($client in $stylist.getClients())
+      <li>$client.getName()</li>
+  #end
+
+
+
+#if ($stylists)
+  #foreach ($stylist in $stylists)
+  <h2><a href="/stylistClients/$stylist.getId()">$stylist.getName()</a></h2>
+  <hr>
+  <p>Current Clients:</p>
+    #foreach($client in $stylist.getClients())
+        <li>$client.getName()</li>
+  #end
+  #end
+
+#else
+  <p>
+  No clients at this time
+  </p>
+
+#end
