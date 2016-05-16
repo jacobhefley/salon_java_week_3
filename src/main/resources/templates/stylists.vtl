@@ -1,26 +1,21 @@
-<div class = "jumbotron">
-  <h1>Our Stylists:</h1>
-</div>
 <div class="container">
-
-  #foreach ($stylist in $stylists)
-  <h2>$stylist.getName()</h2>
-  <hr>
-  <p>Current Clients:</p>
-    #foreach($client in $stylist.getClients())
-        <li>$client.getName()</li>
+  <div class="header clearfix">
+    <nav>
+      <ul class="nav nav-tabs">
+        <li role="presentation"><a href="/">Home</a></li>
+        <li role="presentation" class="active"><a href="/stylists">Stylists</a></li>
+        <li role="presentation"><a href="/clients">Clients</a></li>
+      </ul>
+    </nav>
+  </div>
+  <div class="jumbotron">
+    <h2>All Stylists</h2>
+    #foreach ($stylist in $stylists)
+        <p><a href="/stylists/$stylist.getId()">$stylist.getName()</a></p>
     #end
-  <form action="/clients" method="post">
-  <label>New Client</label>
-  <input type="hidden" id="stylist2add2" name="stylist2add2" value=$stylist.getId()>
-  <input id="newClient" name="newClient" type="text">
-  <button type="button" class="btn btn-success">+</button>
-  </form>
-  #end
-
-<hr>
-<label>New Stylist</label>
-<input id="newstylist" name="newstylist" type="text">
-<button type="button" class="btn btn-success" action="/stylists" method="post">+</button>
-
+    <form action="/stylists" method="post">
+      <input id="name" name="name" type="text" placeholder="name" required>
+      <button type="submit" class="btn btn-success">Add Stylist</button>
+    </form>
+  </div>
 </div>

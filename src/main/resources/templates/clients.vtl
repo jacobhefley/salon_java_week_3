@@ -1,23 +1,26 @@
-<p>Current Clients:</p>
-  #foreach($client in $stylist.getClients())
-      <li>$client.getName()</li>
-  #end
-
-
-
-#if ($stylists)
-  #foreach ($stylist in $stylists)
-  <h2><a href="/stylistClients/$stylist.getId()">$stylist.getName()</a></h2>
-  <hr>
-  <p>Current Clients:</p>
-    #foreach($client in $stylist.getClients())
-        <li>$client.getName()</li>
-  #end
-  #end
-
-#else
-  <p>
-  No clients at this time
-  </p>
-
-#end
+<div class="container">
+  <div class="header clearfix">
+    <nav>
+      <ul class="nav nav-tabs">
+        <li role="presentation"><a href="/">Home</a></li>
+        <li role="presentation"><a href="/stylists">Stylists</a></li>
+        <li role="presentation" class="active"><a href="/clients">Clients</a></li>
+      </ul>
+    </nav>
+  </div>
+  <div class="jumbotron">
+    #if ($stylists)
+      #foreach ($stylist in $stylists)
+      <h2><a href="/stylists/$stylist.getId()">$stylist.getName()</a></h2>
+      <hr>
+      <p>Current Clientele:</p>
+      <br>
+        #foreach($client in $stylist.getClients())
+            <p>$client.getName()</p>
+        #end
+      #end
+    #else
+      <p>No clients at this time</p>
+    #end
+  </div>
+</div>

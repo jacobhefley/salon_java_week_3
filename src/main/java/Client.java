@@ -44,13 +44,16 @@ public class Client {
   }
 
   public void save() {
-    try(Connection con = DB.sql2o.open()) {
-      String sql = "INSERT INTO clients(name, stylist_id) VALUES (:name, :stylist_id)";
-      this.id = (int) con.createQuery(sql, true)
-        .addParameter("name", this.name)
-        .addParameter("stylist_id", this.stylist_id)
-        .executeUpdate()
-        .getKey();
+    if(Client.all().contains(this));
+    else{
+      try(Connection con = DB.sql2o.open()) {
+        String sql = "INSERT INTO clients(name, stylist_id) VALUES (:name, :stylist_id)";
+        this.id = (int) con.createQuery(sql, true)
+          .addParameter("name", this.name)
+          .addParameter("stylist_id", this.stylist_id)
+          .executeUpdate()
+          .getKey();
+      }
     }
   }
 
@@ -61,6 +64,16 @@ public class Client {
         .addParameter("id", id)
         .executeAndFetchFirst(Client.class);
       return client;
+    }
+  }
+
+  public Stylist getStylist() {
+    try(Connection con = DB.sql2o.open()) {
+      String sql = "SELECT * FROM stylists where id=:id";
+      Stylist stylist = con.createQuery(sql)
+        .addParameter("id", this.getId())
+        .executeAndFetchFirst(Stylist.class);
+      return stylist;
     }
   }
 

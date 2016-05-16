@@ -4,26 +4,11 @@ import org.sql2o.*;
 public class Stylist {
 
   private String name;
-  private int client_id;
   private int id;
 
-  @Override
-  public boolean equals(Object otherStylist){
-    if(!(otherStylist instanceof Stylist)){
-      return false;
-    }else {
-      Stylist newStylist = (Stylist) otherStylist;
-      return this.getName().equals(newStylist.getName()) &&
-      this.getId() == newStylist.getId();
-    }
-  }
   public Stylist(String name){
   	this.name = name;
-    this.id = 0;
-  }
-  public Stylist(String name, int id){
-  	this.name = name;
-    this.id = id;
+
   }
 
   public String getName(){
@@ -41,13 +26,26 @@ public class Stylist {
     }
   }
 
+  @Override
+  public boolean equals(Object otherStylist){
+    if(!(otherStylist instanceof Stylist)){
+      return false;
+    }else {
+      Stylist newStylist = (Stylist) otherStylist;
+      return this.getName().equals(newStylist.getName()) &&
+      this.getId() == newStylist.getId();
+    }
+  }
   public void save() {
-    try(Connection con = DB.sql2o.open()) {
-      String sql = "INSERT INTO stylists(name) VALUES (:name)";
-      this.id = (int) con.createQuery(sql, true)
-        .addParameter("name", this.name)
-        .executeUpdate()
-        .getKey();
+    if(Stylist.all().contains(this));
+    else{
+      try(Connection con = DB.sql2o.open()) {
+        String sql = "INSERT INTO stylists(name) VALUES (:name)";
+        this.id = (int) con.createQuery(sql, true)
+          .addParameter("name", this.name)
+          .executeUpdate()
+          .getKey();
+      }
     }
   }
 
