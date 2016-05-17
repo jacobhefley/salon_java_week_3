@@ -44,7 +44,7 @@ public class Client {
   }
 
   public void save() {
-    if(Client.all().contains(this));
+    if(Client.all().contains(this.getStylistId()));
     else{
       try(Connection con = DB.sql2o.open()) {
         String sql = "INSERT INTO clients(name, stylist_id) VALUES (:name, :stylist_id)";
@@ -85,4 +85,25 @@ public class Client {
         .executeAndFetch(Stylist.class);
     }
   }
+
+  public void update(String name, Integer stylist_id) {
+    try(Connection con = DB.sql2o.open()) {
+      String sql = "UPDATE clients SET (name, stylist_id) VALUES (:name, :stylist_id)  WHERE id = :id";
+      con.createQuery(sql)
+        .addParameter("name", this.name)
+        .addParameter("stylist_id", this.stylist_id)
+        .addParameter("id", this.id)
+        .executeUpdate();
+    }
+  }
+
+  public void delete() {
+    try(Connection con = DB.sql2o.open()) {
+    String sql = "DELETE FROM clients WHERE id = :id;";
+    con.createQuery(sql)
+      .addParameter("id", id)
+      .executeUpdate();
+    }
+  }
+
 }

@@ -9,6 +9,7 @@ public class App {
     staticFileLocation("/public");
     String layout = "templates/layout.vtl";
 
+
   get("/", (request, response) -> {
     HashMap<String, Object> model = new HashMap<String, Object>();
     model.put("template", "templates/index.vtl");
@@ -39,16 +40,6 @@ public class App {
     return new ModelAndView(model, layout);
   }, new VelocityTemplateEngine());
 
-  post("/add_client", (request, response) -> {
-    String name = request.queryParams("name");
-    int stylistId = Integer.parseInt(request.queryParams("stylist_id"));
-    Stylist stylist = Stylist.find(stylistId);
-    Client client = new Client(name, stylistId);
-    client.save();
-    response.redirect("/stylists/" + stylistId);
-    return null;
-  });
-
   get("/clients", (request, response) -> {
     HashMap<String, Object> model = new HashMap<String, Object>();
     model.put("stylists" ,Stylist.all());
@@ -64,6 +55,38 @@ public class App {
     response.redirect("/stylists");
     return null;
   });
+
+  post("/add_client", (request, response) -> {
+    String name = request.queryParams("name");
+    int stylist_id = Integer.parseInt(request.queryParams("stylist_id"));
+    Stylist stylist = Stylist.find(stylist_id);
+    Client client = new Client(name, stylist_id);
+    client.save();
+    response.redirect("/stylists/" + stylist_id);
+    return null;
+  });
+
+  // post("/update_client", (request, response) -> {
+  //   String name = request.queryParams("name");
+  //   int stylist_id = Integer.parseInt(request.queryParams("stylist_id"));
+  //   int clientId = Integer.parseInt(request.queryParams("client_id"));
+  //   Client tempClient = Client.find(clientId);
+  //   Client.all().contains(tempClient); // redundant
+  //   tempClient.update(name, stylist_id);
+  //   response.redirect("/stylists/" + stylist_id);
+  //   return null;
+  // });
+  //
+  // post("/delete_client", (request, response) -> {
+  //   String name = request.queryParams("name");
+  //   int stylist_id = Integer.parseInt(request.queryParams("stylist_id"));
+  //   Stylist stylist = Stylist.find(name);
+  //   Client client = new Client(name, stylist_id);
+  //   client.save();
+  //   response.redirect("/stylists/" + stylist_id);
+  //   return null;
+  // });
+
 
   // get("/stylists/:stylist_id/clients/:id", (request, response) -> {
   //   HashMap<String, Object> model = new HashMap<String, Object>();
