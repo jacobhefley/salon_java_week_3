@@ -30,6 +30,30 @@ public class ClientTest {
     assertTrue(firstClient.equals(secondClient));
   }
 
+  @Test
+  public void test_allListofClients_when_ClientsSaved() {
+    Client newClient = new Client("Smith, John", 99);
+    assertEquals(0, Client.all().size());
+    newClient.save();
+    assertEquals(1, Client.all().size());
+    assertTrue(Client.all().get(0).equals(newClient));
+    Client newClient2 = new Client("Smith, Josh", 55);
+    newClient2.save();
+    assertEquals(2, Client.all().size());
+    assertTrue(Client.all().get(1).equals(newClient2));
+    assertFalse(Client.all().get(1).equals(Client.all().get(0)));
+  }
+
+  @Test
+  public void test_findClient() {
+    Client newClient = new Client("Smith, John", 99);
+    Client newClient2 = new Client("Smith, Josh", 55);
+    newClient.save();
+    newClient2.save();
+    assertTrue(Client.find(newClient.getId()).equals(newClient));
+    assertTrue(Client.find(newClient2.getId()).equals(newClient2));
+  }
+
 
 
 }

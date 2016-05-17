@@ -24,13 +24,6 @@ public class Client {
     return stylist_id;
   }
 
-  public static List<Client> all() {
-    String sql = "SELECT id, name, stylist_id FROM clients";
-    try (Connection con = DB.sql2o.open()) {
-      return con.createQuery(sql).executeAndFetch(Client.class);
-    }
-  }
-
   @Override
   public boolean equals(Object otherClient){
     if(!(otherClient instanceof Client)){
@@ -43,17 +36,12 @@ public class Client {
     }
   }
 
-  // public void save() {
-  //   try(Connection con = DB.sql2o.open()) {
-  //     String sql = "INSERT INTO clients(name, stylist_id) VALUES (:name, :stylist_id)";
-  //     this.id = (int) con.createQuery(sql, true)
-  //       .addParameter("name", this.name)
-  //       .addParameter("stylist_id", this.stylist_id)
-  //       .executeUpdate()
-  //       .getKey();
-  //   }
-  // }
-
+  public static List<Client> all() {
+    String sql = "SELECT id, name, stylist_id FROM clients";
+    try (Connection con = DB.sql2o.open()) {
+      return con.createQuery(sql).executeAndFetch(Client.class);
+    }
+  }
   public void save() {
     try(Connection con = DB.sql2o.open()) {
       String sql = "INSERT INTO clients(name, stylist_id) VALUES (:name, :stylist_id)";
