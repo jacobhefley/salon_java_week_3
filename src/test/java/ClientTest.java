@@ -45,13 +45,22 @@ public class ClientTest {
   }
 
   @Test
-  public void test_findClient() {
+  public void testClient_find() {
     Client newClient = new Client("Smith, John", 99);
     Client newClient2 = new Client("Smith, Josh", 55);
     newClient.save();
     newClient2.save();
     assertTrue(Client.find(newClient.getId()).equals(newClient));
     assertTrue(Client.find(newClient2.getId()).equals(newClient2));
+  }
+
+  @Test
+  public void testClient_existsAfterSave() {
+    Client newClient = new Client("Smith, John", 99);
+    Client newClient2 = new Client("Smith, Josh", 55);
+    newClient.save();
+    assertTrue(Client.exists("Smith, John"));
+    assertFalse(Client.exists("Smith, Josh"));
   }
 
 
