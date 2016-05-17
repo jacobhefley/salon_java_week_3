@@ -42,6 +42,7 @@ public class Client {
       return con.createQuery(sql).executeAndFetch(Client.class);
     }
   }
+
   public void save() {
     try(Connection con = DB.sql2o.open()) {
       String sql = "INSERT INTO clients(name, stylist_id) VALUES (:name, :stylist_id)";
@@ -71,6 +72,7 @@ public class Client {
         .executeAndFetch(Stylist.class);
     }
   }
+
   public static boolean exists(String name) {
     boolean result = false;
     for (Client tempClient : Client.all()){
