@@ -23,4 +23,13 @@ public class ClientTest {
     assertEquals(expectedStylistID, newClient.getStylistId());
   }
 
+  @Test
+  public void equalsOverride_returnsTrueWhenClientsAreSame_true() {
+    Client firstClient = new Client("Smith, John", 1);
+    Client secondClient = new Client("Smith, John", 1);
+    assertTrue(firstClient.equals(secondClient));
+  }
+
+
+
 }
