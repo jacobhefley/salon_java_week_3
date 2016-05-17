@@ -9,7 +9,6 @@ public class App {
     staticFileLocation("/public");
     String layout = "templates/layout.vtl";
 
-
   get("/", (request, response) -> {
     HashMap<String, Object> model = new HashMap<String, Object>();
     model.put("template", "templates/index.vtl");
@@ -59,65 +58,21 @@ public class App {
   post("/add_client", (request, response) -> {
     String name = request.queryParams("name");
     int stylist_id = Integer.parseInt(request.queryParams("stylist_id"));
-    Stylist stylist = Stylist.find(stylist_id);
-    Client client = new Client(name, stylist_id);
-    client.save();
-    response.redirect("/stylists/" + stylist_id);
+    if(Client.exists(name)){
+      response.redirect("/clientexists");
+    }
+    else{
+      Client client = new Client(name, stylist_id);
+      client.save();
+      response.redirect("/stylists/" + stylist_id);
+    }
     return null;
   });
 
-  // post("/update_client", (request, response) -> {
-  //   String name = request.queryParams("name");
-  //   int stylist_id = Integer.parseInt(request.queryParams("stylist_id"));
-  //   int clientId = Integer.parseInt(request.queryParams("client_id"));
-  //   Client tempClient = Client.find(clientId);
-  //   Client.all().contains(tempClient); // redundant
-  //   tempClient.update(name, stylist_id);
-  //   response.redirect("/stylists/" + stylist_id);
-  //   return null;
-  // });
-  //
-  // post("/delete_client", (request, response) -> {
-  //   String name = request.queryParams("name");
-  //   int stylist_id = Integer.parseInt(request.queryParams("stylist_id"));
-  //   Stylist stylist = Stylist.find(name);
-  //   Client client = new Client(name, stylist_id);
-  //   client.save();
-  //   response.redirect("/stylists/" + stylist_id);
-  //   return null;
-  // });
-
-
-  // get("/stylists/:stylist_id/clients/:id", (request, response) -> {
-  //   HashMap<String, Object> model = new HashMap<String, Object>();
-  //   model.put("clients", Client.all());
-  //   model.put("template", "templates/clients.vtl");
-  //   return new ModelAndView(model, layout);
-  // }, new VelocityTemplateEngine());
-
-
-  // post("/clients", (request, response) -> {
-  //   HashMap<String, Object> model = new HashMap<String, Object>();
-  //   List<Stylist> stylists = Stylist.all();
-  //   int stylist2add2 = Integer.parseInt(request.queryParams("stylist2add2"));
-  //   String clientName = request.queryParams("newClient");
-  //   Client newClient = new Client(clientName, stylist2add2);
-  //   newClient.save();
-  //   model.put("clients", Client.all());
-  //   model.put("template", "templates/clients.vtl");
-  //   return new ModelAndView(model, layout);
-  // }, new VelocityTemplateEngine());
-  //
-  // post("/stylists", (request, response) -> {
-  //   HashMap<String, Object> model = new HashMap<String, Object>();
-  //   List<Stylist> stylists = Stylist.all();
-  //   String newstylist = request.queryParams("newstylist");
-  //   Stylist newStylist = new Stylist(newstylist);
-  //   newStylist.save();
-  //   model.put("stylists", Stylist.all());
-  //   model.put("template", "templates/stylists.vtl");
-  //   return new ModelAndView(model, layout);
-  // }, new VelocityTemplateEngine());
-
+  get("/clientexists", (request, response) -> {
+    HashMap<String, Object> model = new HashMap<String, Object>();
+    model.put("template", "templates/clientexists.vtl");
+    return new ModelAndView(model, layout);
+  }, new VelocityTemplateEngine());
   }
 }

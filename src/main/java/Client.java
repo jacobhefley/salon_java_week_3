@@ -43,17 +43,25 @@ public class Client {
     }
   }
 
+  // public void save() {
+  //   try(Connection con = DB.sql2o.open()) {
+  //     String sql = "INSERT INTO clients(name, stylist_id) VALUES (:name, :stylist_id)";
+  //     this.id = (int) con.createQuery(sql, true)
+  //       .addParameter("name", this.name)
+  //       .addParameter("stylist_id", this.stylist_id)
+  //       .executeUpdate()
+  //       .getKey();
+  //   }
+  // }
+
   public void save() {
-    if(Client.all().contains(this.getStylistId()));
-    else{
-      try(Connection con = DB.sql2o.open()) {
-        String sql = "INSERT INTO clients(name, stylist_id) VALUES (:name, :stylist_id)";
-        this.id = (int) con.createQuery(sql, true)
-          .addParameter("name", this.name)
-          .addParameter("stylist_id", this.stylist_id)
-          .executeUpdate()
-          .getKey();
-      }
+    try(Connection con = DB.sql2o.open()) {
+      String sql = "INSERT INTO clients(name, stylist_id) VALUES (:name, :stylist_id)";
+      this.id = (int) con.createQuery(sql, true)
+      .addParameter("name", this.name)
+      .addParameter("stylist_id", this.stylist_id)
+      .executeUpdate()
+        .getKey();
     }
   }
 
@@ -67,16 +75,6 @@ public class Client {
     }
   }
 
-  public Stylist getStylist() {
-    try(Connection con = DB.sql2o.open()) {
-      String sql = "SELECT * FROM stylists where id=:id";
-      Stylist stylist = con.createQuery(sql)
-        .addParameter("id", this.getId())
-        .executeAndFetchFirst(Stylist.class);
-      return stylist;
-    }
-  }
-
   public List<Stylist> getStylists() {
     try(Connection con = DB.sql2o.open()) {
       String sql = "SELECT * FROM stylists where stylist_id=:id";
@@ -85,25 +83,14 @@ public class Client {
         .executeAndFetch(Stylist.class);
     }
   }
-
-  public void update(String name, Integer stylist_id) {
-    try(Connection con = DB.sql2o.open()) {
-      String sql = "UPDATE clients SET (name, stylist_id) VALUES (:name, :stylist_id)  WHERE id = :id";
-      con.createQuery(sql)
-        .addParameter("name", this.name)
-        .addParameter("stylist_id", this.stylist_id)
-        .addParameter("id", this.id)
-        .executeUpdate();
+  public static boolean exists(String name) {
+    boolean result = false;
+    for (Client tempClient : Client.all()){
+      if(tempClient.getName().equals(name)){
+        result = true;
+        break;
+      }
     }
+    return result;
   }
-
-  public void delete() {
-    try(Connection con = DB.sql2o.open()) {
-    String sql = "DELETE FROM clients WHERE id = :id;";
-    con.createQuery(sql)
-      .addParameter("id", id)
-      .executeUpdate();
-    }
-  }
-
 }
