@@ -11,12 +11,12 @@ A Java Enabled website, running on a local server powered by Spark, Gradle, and 
 
 ## Setup/Installation Requirements
 
-*git clone the repo
-*pg_ctl start
-*open terminal
-*type: "cd " and drag and drop to terminal the cloned repo
-*psql hair_salon < hair_salon.sql
-*psql hair_salon_test < hair_salon_test.sql
+*git clone the repo*
+*pg_ctl start*
+*open terminal*
+*type: "cd " and drag and drop to terminal the cloned repo*
+*psql hair_salon < hair_salon.sql*
+*psql hair_salon_test < hair_salon_test.sql*
 
 
 ## Future Improvements
