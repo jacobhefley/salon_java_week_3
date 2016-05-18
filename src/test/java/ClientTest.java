@@ -63,9 +63,4 @@ public class ClientTest {
     assertFalse(Client.exists("Smith, Josh"));
   }
 
-  public void testClient_getStylists_returnsAllStylists() {
-
-  }
-
-
 }

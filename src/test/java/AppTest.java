@@ -28,4 +28,23 @@ public class AppTest extends FluentTest {
     goTo("http://localhost:4567/");
     assertThat(pageSource()).contains("0NE ST0P BarberShop T00LS");
   }
+
+  // @Test
+  // public void stylistIsAddedTest() {
+  //   goTo("http://localhost:4567/");
+  //   click("a", withText("Alex"));
+  //   fill("#name").with("House");
+  //   submit(".btn");
+  //   assertThat(pageSource()).contains("House");
+  // }
+
+  @Test
+  public void stylistIsAddedTest() {
+    goTo("http://localhost:4567/");
+    click("a", withText("Stylists"));
+    fill("#name").with("Alex");
+    submit(".btn");
+    assertThat(pageSource()).contains("Alex");
+  }
+
 }

@@ -52,4 +52,18 @@ public class StylistTest {
     assertTrue(Stylist.find(newStylist2.getId()).equals(newStylist2));
   }
 
+  @Test
+  public void testStylist_getClients() {
+    Stylist newStylist = new Stylist("Alex");
+    Stylist newStylist2 = new Stylist("Justin");
+    newStylist.save();
+    newStylist2.save();
+    Client newClient = new Client("Smith, John", newStylist.getId());
+    Client newClient2 = new Client("Smith, Josh", newStylist2.getId());
+    newClient.save();
+    newClient2.save();
+    assertTrue(newStylist.getClients().get(0).getName().equals("Smith, John"));
+    assertTrue(newStylist2.getClients().get(0).getName().equals("Smith, Josh"));
+  }
+
 }

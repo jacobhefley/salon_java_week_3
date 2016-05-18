@@ -8,7 +8,6 @@ public class Stylist {
 
   public Stylist(String name){
   	this.name = name;
-
   }
 
   public String getName(){
@@ -30,12 +29,14 @@ public class Stylist {
   public boolean equals(Object otherStylist){
     if(!(otherStylist instanceof Stylist)){
       return false;
-    }else {
+    }
+    else {
       Stylist newStylist = (Stylist) otherStylist;
       return this.getName().equals(newStylist.getName()) &&
       this.getId() == newStylist.getId();
     }
   }
+
   public void save() {
       try(Connection con = DB.sql2o.open()) {
         String sql = "INSERT INTO stylists(name) VALUES (:name)";
@@ -43,7 +44,6 @@ public class Stylist {
           .addParameter("name", this.name)
           .executeUpdate()
           .getKey();
-
     }
   }
 
@@ -56,31 +56,13 @@ public class Stylist {
       return stylist;
     }
   }
-   public List<Client> getClients() {
+
+  public List<Client> getClients() {
     try(Connection con = DB.sql2o.open()) {
       String sql = "SELECT * FROM clients where stylist_id=:id";
       return con.createQuery(sql)
         .addParameter("id", this.id)
         .executeAndFetch(Client.class);
-    }
-  }
-
-  public void update(String name) {
-    try(Connection con = DB.sql2o.open()) {
-      String sql = "UPDATE stylists SET name = :name WHERE id = :id";
-      con.createQuery(sql)
-        .addParameter("name", name)
-        .addParameter("id", id)
-        .executeUpdate();
-    }
-  }
-
-  public void delete() {
-    try(Connection con = DB.sql2o.open()) {
-    String sql = "DELETE FROM stylists WHERE id = :id;";
-    con.createQuery(sql)
-      .addParameter("id", id)
-      .executeUpdate();
     }
   }
 
