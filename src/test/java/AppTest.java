@@ -29,15 +29,6 @@ public class AppTest extends FluentTest {
     assertThat(pageSource()).contains("0NE ST0P BarberShop T00LS");
   }
 
-  // @Test
-  // public void stylistIsAddedTest() {
-  //   goTo("http://localhost:4567/");
-  //   click("a", withText("Alex"));
-  //   fill("#name").with("House");
-  //   submit(".btn");
-  //   assertThat(pageSource()).contains("House");
-  // }
-
   @Test
   public void stylistIsAdded() {
     goTo("http://localhost:4567/");
@@ -58,6 +49,56 @@ public class AppTest extends FluentTest {
     submit(".btn");
     assertThat(pageSource()).contains("Alex");
     assertThat(pageSource()).contains("Smith, Stanley");
+  }
+
+  @Test
+  public void stylists_and_client_Added() {
+    goTo("http://localhost:4567/");
+    click("a", withText("Stylists"));
+    fill("#name").with("Alex");
+    submit(".btn");
+    click("a", withText("Alex"));
+    fill("#name").with("Smith, Stanley");
+    submit(".btn");
+    click("a", withText("Stylists"));
+    fill("#name").with("Justin");
+    submit(".btn");
+    fill("#name").with("Doe, John");
+    submit(".btn");
+    click("a", withText("Clients"));
+    assertThat(pageSource()).contains("Alex");
+    assertThat(pageSource()).contains("Smith, Stanley");
+    assertThat(pageSource()).contains("Justin");
+    assertThat(pageSource()).contains("Doe, John");
+  }
+
+  @Test
+  public void multiple_stylists_and_clients_Added() {
+    goTo("http://localhost:4567/");
+    click("a", withText("Stylists"));
+    fill("#name").with("Alex");
+    submit(".btn");
+    click("a", withText("Alex"));
+    fill("#name").with("Smith, Stanley");
+    submit(".btn");
+    click("a", withText("Stylists"));
+    fill("#name").with("Justin");
+    submit(".btn");
+    fill("#name").with("Doe, John");
+    submit(".btn");
+    fill("#name").with("Johnson, John");
+    submit(".btn");
+    click("a", withText("Stylists"));
+    click("a", withText("Alex"));
+    fill("#name").with("Herfner, Rick");
+    submit(".btn");
+    click("a", withText("Clients"));
+    assertThat(pageSource()).contains("Alex");
+    assertThat(pageSource()).contains("Smith, Stanley");
+    assertThat(pageSource()).contains("Justin");
+    assertThat(pageSource()).contains("Doe, John");
+    assertThat(pageSource()).contains("Johnson, John");
+    assertThat(pageSource()).contains("Herfner, Rick");
   }
 
 }
