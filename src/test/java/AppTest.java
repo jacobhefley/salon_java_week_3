@@ -101,4 +101,36 @@ public class AppTest extends FluentTest {
     assertThat(pageSource()).contains("Herfner, Rick");
   }
 
+  @Test
+  public void same_client_to_different_stylist_decline() {
+    goTo("http://localhost:4567/");
+    click("a", withText("Stylists"));
+    fill("#name").with("Alex");
+    submit(".btn");
+    click("a", withText("Alex"));
+    fill("#name").with("Smith, Stanley");
+    submit(".btn");
+    click("a", withText("Stylists"));
+    fill("#name").with("Justin");
+    submit(".btn");
+    fill("#name").with("Doe, John");
+    submit(".btn");
+    fill("#name").with("Johnson, John");
+    submit(".btn");
+    click("a", withText("Stylists"));
+    click("a", withText("Alex"));
+    fill("#name").with("Herfner, Rick");
+    submit(".btn");
+    fill("#name").with("Smith, Stanley");
+    submit(".btn");
+    assertThat(pageSource()).contains("Client is already taken!");
+    click("a", withText("Clients"));
+    assertThat(pageSource()).contains("Alex");
+    assertThat(pageSource()).contains("Smith, Stanley");
+    assertThat(pageSource()).contains("Justin");
+    assertThat(pageSource()).contains("Doe, John");
+    assertThat(pageSource()).contains("Johnson, John");
+    assertThat(pageSource()).contains("Herfner, Rick");
+  }
+
 }
