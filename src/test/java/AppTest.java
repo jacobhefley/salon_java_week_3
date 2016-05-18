@@ -39,12 +39,25 @@ public class AppTest extends FluentTest {
   // }
 
   @Test
-  public void stylistIsAddedTest() {
+  public void stylistIsAdded() {
     goTo("http://localhost:4567/");
     click("a", withText("Stylists"));
     fill("#name").with("Alex");
     submit(".btn");
     assertThat(pageSource()).contains("Alex");
+  }
+
+  @Test
+  public void stylist_and_client_Added() {
+    goTo("http://localhost:4567/");
+    click("a", withText("Stylists"));
+    fill("#name").with("Alex");
+    submit(".btn");
+    click("a", withText("Alex"));
+    fill("#name").with("Smith, Stanley");
+    submit(".btn");
+    assertThat(pageSource()).contains("Alex");
+    assertThat(pageSource()).contains("Smith, Stanley");
   }
 
 }
